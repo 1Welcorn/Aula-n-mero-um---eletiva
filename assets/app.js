@@ -1,10 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('Cordel Interativo: Script carregado com sucesso.');
+    
     const btnTVMode = document.getElementById('btnTVMode');
     const logoTVTrigger = document.getElementById('logoTVTrigger');
     const body = document.body;
 
-    // 1. Gestão de Estado do Modo TV
-    const isTVModeActive = localStorage.getItem('tvMode') === 'true';
+    // 1. Gestão de Estado do Modo TV (com tratamento de erro para localStorage)
+    let isTVModeActive = false;
+    try {
+        isTVModeActive = localStorage.getItem('tvMode') === 'true';
+    } catch (e) {
+        console.warn('localStorage não disponível:', e);
+    }
+
     if (isTVModeActive) {
         body.classList.add('tv-mode');
     }
@@ -18,35 +26,55 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function toggleTVMode() {
-        if (!document.fullscreenElement) {
-            if (document.documentElement.requestFullscreen) {
-                document.documentElement.requestFullscreen();
+        const doc = document.documentElement;
+        const isFullscreen = document.fullscreenElement || 
+                           document.webkitFullscreenElement || 
+                           document.mozFullScreenElement || 
+                           document.msFullscreenElement;
+
+        if (!isFullscreen) {
+            if (doc.requestFullscreen) {
+                doc.requestFullscreen();
+            } else if (doc.webkitRequestFullscreen) {
+                doc.webkitRequestFullscreen();
+            } else if (doc.mozRequestFullScreen) {
+                doc.mozRequestFullScreen();
+            } else if (doc.msRequestFullscreen) {
+                doc.msRequestFullscreen();
             }
         } else {
             if (document.exitFullscreen) {
                 document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
             }
         }
     }
 
     // Sincronizar classe tv-mode com o estado real do Fullscreen
-    document.addEventListener('fullscreenchange', () => {
-        const isFullscreen = !!document.fullscreenElement;
+    const syncFullscreen = () => {
+        const isFullscreen = !!(document.fullscreenElement || 
+                               document.webkitFullscreenElement || 
+                               document.mozFullScreenElement || 
+                               document.msFullscreenElement);
+        
         if (isFullscreen) {
             body.classList.add('tv-mode');
-            localStorage.setItem('tvMode', 'true');
+            try { localStorage.setItem('tvMode', 'true'); } catch(e) {}
         } else {
             body.classList.remove('tv-mode');
-            localStorage.setItem('tvMode', 'false');
+            try { localStorage.setItem('tvMode', 'false'); } catch(e) {}
         }
-    });
+    };
 
-    // Se o localStorage diz que deve estar em modo TV, tenta entrar (pode falhar sem interação)
-    if (isTVModeActive && !document.fullscreenElement) {
-        // Nota: Browsers bloqueiam fullscreen automático sem clique, 
-        // mas mantemos a classe para o layout se o usuário preferir assim.
-        body.classList.add('tv-mode');
-    }
+    document.addEventListener('fullscreenchange', syncFullscreen);
+    document.addEventListener('webkitfullscreenchange', syncFullscreen);
+    document.addEventListener('mozfullscreenchange', syncFullscreen);
+    document.addEventListener('MSFullscreenChange', syncFullscreen);
 
     // 2. Expansor Magnético (Maximized Cards)
     const cards = document.querySelectorAll('.card');
@@ -54,12 +82,15 @@ document.addEventListener('DOMContentLoaded', () => {
         card.addEventListener('click', () => {
             // Lógica especial para Hub Cards (Início)
             if (card.classList.contains('hub-card')) {
-                if (!document.fullscreenElement) {
-                    // Primeiro clique: Entra em modo TV e Maximiza para foco
+                const isFullscreen = !!(document.fullscreenElement || 
+                                       document.webkitFullscreenElement || 
+                                       document.mozFullScreenElement || 
+                                       document.msFullscreenElement);
+                
+                if (!isFullscreen) {
                     toggleTVMode();
                     maximizeCard(card);
                 } else {
-                    // Segundo clique (já em Fullscreen): Navega para o slide
                     window.location.href = card.dataset.url;
                 }
                 return;
@@ -81,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.appendChild(closeBtn);
 
         const close = (e) => {
-            e.stopPropagation();
+            if (e) e.stopPropagation();
             card.classList.remove('maximized');
             closeBtn.remove();
             document.removeEventListener('keydown', escHandler);
