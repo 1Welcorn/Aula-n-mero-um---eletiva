@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cordel Interativo | Quiz</title>
+    <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+    <header>
+        <div style="display: flex; align-items: center; gap: 0.8rem;">
+            <span class="logo" id="logoTVTrigger" style="cursor: pointer;" title="Clique para Modo TV">CORDEL INTERATIVO</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="origem.html">Origem</a></li>
+                <li><a href="nordeste.html">Nordeste</a></li>
+                <li><a href="como-funciona.html">Técnica</a></li>
+                <li><a href="xilogravura.html">Xilo</a></li>
+                <li><a href="capas.html">Capas</a></li>
+                <li><a href="autores.html">Autores</a></li>
+                <li><a href="quiz.html">Quiz</a></li>
+                <li><a href="javascript:history.back()" class="back-link" title="Voltar">←</a></li>
+                <li><a href="index.html" class="home-link" title="Início">🏠</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1 style="font-size: 4rem; text-align: center; margin-bottom: 2rem;">Desafio do Cordelista</h1>
+        
+        <div class="quiz-container">
+            <div class="card" style="margin-bottom: 2rem; cursor: default;">
+                <h3>Pergunta 1: Por que a literatura de Cordel tem esse nome?</h3>
+                <button class="quiz-option" data-correct="false">A) Porque é escrita com cordas.</button>
+                <button class="quiz-option" data-correct="true">B) Porque os folhetos eram pendurados em cordéis (barbantes).</button>
+                <button class="quiz-option" data-correct="false">C) Porque os poetas usavam roupas de corda.</button>
+            </div>
+
+            <div class="card" style="margin-bottom: 2rem; cursor: default;">
+                <h3>Pergunta 2: Qual a estrofe mais comum no Cordel?</h3>
+                <button class="quiz-option" data-correct="true">A) Sextilha (6 versos).</button>
+                <button class="quiz-option" data-correct="false">B) Quadra (4 versos).</button>
+                <button class="quiz-option" data-correct="false">C) Décima (10 versos).</button>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="index.html" class="btn-back-home">Voltar ao Início</a>
+        </div>
+    </main>
+
+    <button id="btnTVMode" title="Ativar Modo TV">🔎</button>
+    <script src="/assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cordel Interativo | Autores</title>
+    <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+    <header>
+        <div style="display: flex; align-items: center; gap: 0.8rem;">
+            <span class="logo" id="logoTVTrigger" style="cursor: pointer;" title="Clique para Modo TV">CORDEL INTERATIVO</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="origem.html">Origem</a></li>
+                <li><a href="nordeste.html">Nordeste</a></li>
+                <li><a href="como-funciona.html">Técnica</a></li>
+                <li><a href="xilogravura.html">Xilo</a></li>
+                <li><a href="capas.html">Capas</a></li>
+                <li><a href="autores.html">Autores</a></li>
+                <li><a href="quiz.html">Quiz</a></li>
+                <li><a href="javascript:history.back()" class="back-link" title="Voltar">←</a></li>
+                <li><a href="index.html" class="home-link" title="Início">🏠</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="full-slide">
+            <div class="slide-left">
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Pedro_Monteiro_%28poeta_de_Literatura_de_Cordel%29.JPG" alt="Poeta Pedro Monteiro" referrerPolicy="no-referrer">
+            </div>
+            <div class="slide-right">
+                <h1 class="slide-title">Mestres da Poesia</h1>
+                <p>O Cordel é feito por gente que transforma o cotidiano em arte. Conheça alguns dos maiores nomes que imortalizaram nossa cultura.</p>
+                
+                <div class="grid-hub">
+                    <div class="card">
+                        <h3>Leandro Gomes de Barros</h3>
+                        <p>Considerado o "Rei dos Poetas de Cordel". Escreveu clássicos como "O Cachorro dos Mortos".</p>
+                    </div>
+                    <div class="card">
+                        <h3>Patativa do Assaré</h3>
+                        <p>Um dos maiores poetas populares do Brasil. Suas rimas falavam da vida sofrida e bela do sertanejo.</p>
+                    </div>
+                    <div class="card">
+                        <h3>J. Borges</h3>
+                        <p>Famoso tanto por seus versos quanto por suas xilogravuras que ganharam o mundo.</p>
+                    </div>
+                </div>
+
+                <div class="note-box" style="margin-top: 4rem;">
+                    📚 VOCÊ SABIA? Muitos desses poetas não tinham escola, mas sabiam de cor milhares de versos!
+                </div>
+
+                <a href="index.html" class="btn-back-home">Voltar ao Início</a>
+            </div>
+        </section>
+    </main>
+
+    <button id="btnTVMode" title="Ativar Modo TV">🔎</button>
+    <script src="/assets/app.js"></script>
+</body>
+</html>

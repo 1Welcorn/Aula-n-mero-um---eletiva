@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cordel Interativo | Origem</title>
+    <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+    <header>
+        <div style="display: flex; align-items: center; gap: 0.8rem;">
+            <span class="logo" id="logoTVTrigger" style="cursor: pointer;" title="Clique para Modo TV">CORDEL INTERATIVO</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="origem.html">Origem</a></li>
+                <li><a href="nordeste.html">Nordeste</a></li>
+                <li><a href="como-funciona.html">Técnica</a></li>
+                <li><a href="xilogravura.html">Xilo</a></li>
+                <li><a href="capas.html">Capas</a></li>
+                <li><a href="autores.html">Autores</a></li>
+                <li><a href="quiz.html">Quiz</a></li>
+                <li><a href="javascript:history.back()" class="back-link" title="Voltar">←</a></li>
+                <li><a href="index.html" class="home-link" title="Início">🏠</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="full-slide">
+            <div class="slide-left">
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Caravela_portuguesa.jpg" alt="Caravela Portuguesa" referrerPolicy="no-referrer">
+            </div>
+            <div class="slide-right">
+                <h1 class="slide-title">As Raízes do Folheto</h1>
+                <ul class="big-list">
+                    <li>Surgiu na Europa (Portugal e Espanha) como "Literatura de Cego".</li>
+                    <li>Chegou ao Brasil com os colonizadores no século XVIII.</li>
+                    <li>Ganhou o nome "Cordel" por causa dos barbantes (cordas) onde eram pendurados.</li>
+                    <li>No início, eram histórias de bravura, religião e notícias distantes.</li>
+                </ul>
+                
+                <div class="note-box highlight">
+                    ✍️ DESAFIO: Se você vivesse há 200 anos, qual notícia importante você transformaria em rima para vender na feira?
+                </div>
+
+                <div class="card" style="margin-top: 2rem; display: flex; align-items: center; gap: 2rem; cursor: default;">
+                    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Literatura_de_cordel.jpg" alt="Prendedores em Barbante" style="width: 150px; height: 150px; object-fit: cover; border-radius: 4px;" referrerPolicy="no-referrer">
+                    <div>
+                        <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Por que "Cordel"?</h3>
+                        <p style="font-size: 1rem;">O nome vem do cordão (ou barbante) onde os folhetos eram pendurados com pequenos prendedores de madeira, como se estivessem em um varal.</p>
+                    </div>
+                </div>
+
+                <a href="index.html" class="btn-back-home">Voltar ao Início</a>
+            </div>
+        </section>
+    </main>
+
+    <button id="btnTVMode" title="Ativar Modo TV">🔎</button>
+    <script src="/assets/app.js"></script>
+</body>
+</html>

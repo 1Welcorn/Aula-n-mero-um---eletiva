@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cordel Interativo | Início</title>
+    <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+    <header>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <span class="logo" id="logoTVTrigger" style="cursor: pointer;" title="Clique para Modo TV">CORDEL INTERATIVO</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="origem.html">Origem</a></li>
+                <li><a href="nordeste.html">Nordeste</a></li>
+                <li><a href="como-funciona.html">Técnica</a></li>
+                <li><a href="xilogravura.html">Xilo</a></li>
+                <li><a href="capas.html">Capas</a></li>
+                <li><a href="autores.html">Autores</a></li>
+                <li><a href="quiz.html">Quiz</a></li>
+                <li><a href="javascript:history.back()" class="back-link" title="Voltar">←</a></li>
+                <li><a href="index.html" class="home-link" title="Início">🏠</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="full-slide">
+            <div class="slide-left">
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Literatura%20de%20cordel%20REFON.jpg" alt="Folhetos de Cordel no Varal" referrerPolicy="no-referrer">
+            </div>
+            <div class="slide-right">
+                <h1 class="slide-title">Bem-vindos ao Universo do Cordel</h1>
+                <p>Uma jornada épica pelas rimas, xilogravuras e a alma do sertão nordestino. Prepare-se para descobrir como o papel e a tinta contam histórias do mundo.</p>
+
+                <div class="grid-hub">
+                    <div class="card hub-card" data-url="origem.html">
+                        <h3>📜 Origem</h3>
+                        <p>Das caravelas ao barbante brasileiro.</p>
+                    </div>
+                    <div class="card hub-card" data-url="nordeste.html">
+                        <h3>🌵 Nordeste</h3>
+                        <p>O coração da cultura popular.</p>
+                    </div>
+                    <div class="card hub-card" data-url="como-funciona.html">
+                        <h3>✍️ Técnica</h3>
+                        <p>Rima, ritmo e a métrica do verso.</p>
+                    </div>
+                    <div class="card hub-card" data-url="xilogravura.html">
+                        <h3>🎨 Xilo</h3>
+                        <p>A arte de entalhar histórias na madeira.</p>
+                    </div>
+                    <div class="card hub-card" data-url="capas.html">
+                        <h3>🖼️ Capas</h3>
+                        <p>Galeria de obras e exposições clássicas.</p>
+                    </div>
+                    <div class="card hub-card" data-url="autores.html">
+                        <h3>👨‍🏫 Autores</h3>
+                        <p>Os grandes mestres da rima nordestina.</p>
+                    </div>
+                    <div class="card hub-card" data-url="quiz.html">
+                        <h3>❓ Quiz</h3>
+                        <p>Teste seus conhecimentos sobre o Cordel.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <button id="btnTVMode" title="Ativar Modo TV">🔎</button>
+
+    <script src="/assets/app.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cordel Interativo | Capas</title>
+    <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+    <header>
+        <div style="display: flex; align-items: center; gap: 0.8rem;">
+            <span class="logo" id="logoTVTrigger" style="cursor: pointer;" title="Clique para Modo TV">CORDEL INTERATIVO</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="origem.html">Origem</a></li>
+                <li><a href="nordeste.html">Nordeste</a></li>
+                <li><a href="como-funciona.html">Técnica</a></li>
+                <li><a href="xilogravura.html">Xilo</a></li>
+                <li><a href="capas.html">Capas</a></li>
+                <li><a href="autores.html">Autores</a></li>
+                <li><a href="quiz.html">Quiz</a></li>
+                <li><a href="javascript:history.back()" class="back-link" title="Voltar">←</a></li>
+                <li><a href="index.html" class="home-link" title="Início">🏠</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1 style="font-size: 4rem; text-align: center; margin-bottom: 2rem;">Galeria de Capas e Exposições</h1>
+        
+        <div class="grid-hub">
+            <div class="card">
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Chegada_de_lampi%C3%A3o_no_inferno.jpg" alt="A Chegada de Lampião no Inferno" style="width: 100%; height: auto; object-fit: contain; margin-bottom: 1rem;" referrerPolicy="no-referrer">
+                <h3>A Chegada de Lampião</h3>
+                <p>Capa clássica da xilogravura que narra o encontro épico do cangaceiro com o diabo.</p>
+            </div>
+            <div class="card">
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Literatura_de_cordel.jpg" alt="Prendedores em Barbante" style="width: 100%; height: auto; object-fit: contain; margin-bottom: 1rem;" referrerPolicy="no-referrer">
+                <h3>Por que Cordel?</h3>
+                <p>O detalhe dos prendedores que dão nome a esta literatura tão rica.</p>
+            </div>
+            <div class="card">
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Literatura%20de%20Cordel%20%2834791010662%29.jpg" alt="Expositório de Rua" style="width: 100%; height: auto; object-fit: contain; margin-bottom: 1rem;" referrerPolicy="no-referrer">
+                <h3>Voz das Ruas</h3>
+                <p>Expositório amplo mostrando como o Cordel ocupa o espaço público.</p>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="index.html" class="btn-back-home">Voltar ao Início</a>
+        </div>
+    </main>
+
+    <button id="btnTVMode" title="Ativar Modo TV">🔎</button>
+    <script src="/assets/app.js"></script>
+</body>
+</html>

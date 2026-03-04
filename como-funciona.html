@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cordel Interativo | Como Funciona</title>
+    <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+    <header>
+        <div style="display: flex; align-items: center; gap: 0.8rem;">
+            <span class="logo" id="logoTVTrigger" style="cursor: pointer;" title="Clique para Modo TV">CORDEL INTERATIVO</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="origem.html">Origem</a></li>
+                <li><a href="nordeste.html">Nordeste</a></li>
+                <li><a href="como-funciona.html">Técnica</a></li>
+                <li><a href="xilogravura.html">Xilo</a></li>
+                <li><a href="capas.html">Capas</a></li>
+                <li><a href="autores.html">Autores</a></li>
+                <li><a href="quiz.html">Quiz</a></li>
+                <li><a href="javascript:history.back()" class="back-link" title="Voltar">←</a></li>
+                <li><a href="index.html" class="home-link" title="Início">🏠</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="full-slide">
+            <div class="slide-left">
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Cordel%20literature%20-%20Exhibition%20in%20the%20Palau%20de%20Cervell%C3%B3%2005.jpg" alt="Folhetos de Cordel com Versos" referrerPolicy="no-referrer">
+            </div>
+            <div class="slide-right">
+                <h1 class="slide-title">Rima, Ritmo e Estrofe</h1>
+                <ul class="big-list">
+                    <li><strong>Sextilha:</strong> A estrofe mais comum, com 6 versos.</li>
+                    <li><strong>Métrica:</strong> Geralmente versos de 7 sílabas poéticas (Redondilha Maior).</li>
+                    <li><strong>Rima:</strong> No esquema ABCBDB (o 2º, 4º e 6º versos rimam).</li>
+                    <li><strong>Oração:</strong> O Cordel é feito para ser lido em voz alta ou cantado!</li>
+                </ul>
+                
+                <div class="note-box highlight">
+                    🎤 EXERCÍCIO RELÂMPAGO: Tente rimar estas palavras: SERTÃO, FEIRA, POETA. (Ex: Sertão rima com Coração!)
+                </div>
+
+                <a href="index.html" class="btn-back-home">Voltar ao Início</a>
+            </div>
+        </section>
+    </main>
+
+    <button id="btnTVMode" title="Ativar Modo TV">🔎</button>
+    <script src="/assets/app.js"></script>
+</body>
+</html>
