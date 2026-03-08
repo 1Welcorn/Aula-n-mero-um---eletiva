@@ -104,20 +104,28 @@ document.addEventListener('DOMContentLoaded', () => {
         document.addEventListener('MSFullscreenChange', handleFullscreenChange);
 
         // 2. Navegação SPA para manter Fullscreen
+        let isNavigating = false;
         const handleNavigation = async (url) => {
-            if (!url || url.startsWith('javascript:')) return;
+            if (isNavigating || !url || url.startsWith('javascript:')) return;
+            
+            const currentMain = document.querySelector('main');
+            if (currentMain) currentMain.style.opacity = '0.5';
+            isNavigating = true;
             
             try {
                 const response = await fetch(url);
+                if (!response.ok) throw new Error('Falha ao carregar página');
+                
                 const html = await response.text();
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
                 
                 // Atualizar conteúdo do main
                 const newMain = doc.querySelector('main');
-                const currentMain = document.querySelector('main');
                 if (newMain && currentMain) {
                     currentMain.innerHTML = newMain.innerHTML;
+                    // Atualizar classes do main se necessário
+                    currentMain.className = newMain.className;
                     // Re-scrolar para o topo
                     window.scrollTo(0, 0);
                 }
@@ -131,26 +139,32 @@ document.addEventListener('DOMContentLoaded', () => {
                     const newScript = document.createElement('script');
                     Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
                     if (oldScript.src) {
-                        // Se for script externo (como app.js), não recarrega se já existir
                         if (oldScript.src.includes('app.js')) return;
                         newScript.src = oldScript.src;
                     } else {
                         newScript.textContent = oldScript.textContent;
                     }
                     document.body.appendChild(newScript);
-                    // Remove para não poluir o DOM
                     if (!oldScript.src) newScript.remove();
                 });
                 
-                // Atualizar URL
-                history.pushState({ url }, doc.title, url);
+                // Atualizar URL se não for popstate
+                if (window.location.href !== url) {
+                    history.pushState({ url }, doc.title, url);
+                }
                 
                 // Re-inicializar componentes específicos da nova página
                 reinitializePageScripts();
                 
             } catch (err) {
                 console.error('Erro na navegação SPA:', err);
-                window.location.href = url; // Fallback para navegação normal
+                // Fallback para navegação normal apenas se não for erro de cancelamento
+                if (err.name !== 'AbortError') {
+                    window.location.href = url;
+                }
+            } finally {
+                if (currentMain) currentMain.style.opacity = '1';
+                isNavigating = false;
             }
         };
 
@@ -164,7 +178,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Interceptar cliques em links da navegação
         document.addEventListener('click', (e) => {
             const link = e.target.closest('a');
-            if (link && link.href && link.origin === window.location.origin && !link.classList.contains('back-link')) {
+            if (link && link.href && link.origin === window.location.origin) {
+                // Ignorar links com target="_blank", links de download, ou links com classe back-link
+                if (link.target === '_blank' || link.hasAttribute('download') || link.classList.contains('back-link') || link.href.startsWith('javascript:')) {
+                    return;
+                }
+                
                 e.preventDefault();
                 handleNavigation(link.href);
             }
@@ -172,11 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Lidar com botão voltar do navegador
         window.addEventListener('popstate', (e) => {
-            if (e.state && e.state.url) {
-                handleNavigation(e.state.url);
-            } else {
-                window.location.reload();
-            }
+            handleNavigation(window.location.href);
         });
 
         // 3. Expansor Magnético (Maximized Cards) via Delegação de Eventos

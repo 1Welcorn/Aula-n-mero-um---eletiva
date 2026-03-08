@@ -48,6 +48,57 @@
                 <a href="demonstracao.html" class="btn-back-home" style="margin-top: 2rem; background: var(--accent); color: white;">Próximo: Demonstração em Vídeo →</a>
             </div>
         </section>
+
+        <section class="gallery-section">
+            <h2 style="font-size: 2.5rem; color: var(--accent); margin-bottom: 1rem;">Galeria de Xilogravuras</h2>
+            <p>Clique nas imagens para ampliar e ver os detalhes dos traços.</p>
+            
+            <div class="gallery-grid">
+                <div class="gallery-item" onclick="openModal('https://commons.wikimedia.org/wiki/Special:FilePath/Chegada_de_lampi%C3%A3o_no_inferno.jpg')">
+                    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Chegada_de_lampi%C3%A3o_no_inferno.jpg" alt="Xilogravura 1" referrerPolicy="no-referrer">
+                </div>
+                <div class="gallery-item" onclick="openModal('https://commons.wikimedia.org/wiki/Special:FilePath/Literatura_de_cordel.jpg')">
+                    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Literatura_de_cordel.jpg" alt="Xilogravura 2" referrerPolicy="no-referrer">
+                </div>
+                <div class="gallery-item" onclick="openModal('https://commons.wikimedia.org/wiki/Special:FilePath/Literatura%20de%20Cordel%20%2834791010662%29.jpg')">
+                    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Literatura%20de%20Cordel%20%2834791010662%29.jpg" alt="Xilogravura 3" referrerPolicy="no-referrer">
+                </div>
+                <div class="gallery-item" onclick="openModal('https://commons.wikimedia.org/wiki/Special:FilePath/Cordel%20literature%20-%20Exhibition%20in%20the%20Palau%20de%20Cervell%C3%B3%2005.jpg')">
+                    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Cordel%20literature%20-%20Exhibition%20in%20the%20Palau%20de%20Cervell%C3%B3%2005.jpg" alt="Xilogravura 4" referrerPolicy="no-referrer">
+                </div>
+            </div>
+        </section>
+
+        <!-- Modal -->
+        <div id="imageModal" class="modal" onclick="closeModal()">
+            <span class="modal-close">&times;</span>
+            <img id="modalImg" class="modal-content">
+        </div>
+
+        <script>
+            function openModal(src) {
+                const modal = document.getElementById('imageModal');
+                const modalImg = document.getElementById('modalImg');
+                if (modal && modalImg) {
+                    modal.classList.add('active');
+                    modalImg.src = src;
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+
+            function closeModal() {
+                const modal = document.getElementById('imageModal');
+                if (modal) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            }
+
+            // Fechar com ESC
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeModal();
+            });
+        </script>
     </main>
 
     <div class="slide-nav">
