@@ -17,6 +17,7 @@
                 <li><a href="nordeste.html">Nordeste</a></li>
                 <li><a href="como-funciona.html">Técnica</a></li>
                 <li><a href="xilogravura.html">Xilo</a></li>
+                <li><a href="demonstracao.html">Vídeos</a></li>
                 <li><a href="capas.html">Capas</a></li>
                 <li><a href="autores.html">Autores</a></li>
                 <li><a href="quiz.html">Quiz</a></li>
@@ -29,19 +30,17 @@
     <main class="container">
         <h1 style="font-size: 4rem; text-align: center; margin-bottom: 2rem;">Desafio do Cordelista</h1>
         
-        <div class="quiz-container">
-            <div class="card" style="margin-bottom: 2rem; cursor: default;">
-                <h3>Pergunta 1: Por que a literatura de Cordel tem esse nome?</h3>
-                <button class="quiz-option" data-correct="false">A) Porque é escrita com cordas.</button>
-                <button class="quiz-option" data-correct="true">B) Porque os folhetos eram pendurados em cordéis (barbantes).</button>
-                <button class="quiz-option" data-correct="false">C) Porque os poetas usavam roupas de corda.</button>
+        <div id="quiz-wrapper" class="quiz-container">
+            <!-- Question will be injected here by JS -->
+            <div id="question-card" class="card" style="margin-bottom: 2rem; cursor: default; min-height: 400px; display: flex; flex-direction: column; justify-content: center; padding: 3rem;">
+                <h2 id="question-text" style="font-size: 2.8rem; margin-bottom: 2.5rem; line-height: 1.2;">Carregando desafio...</h2>
+                <div id="options-container"></div>
             </div>
-
-            <div class="card" style="margin-bottom: 2rem; cursor: default;">
-                <h3>Pergunta 2: Qual a estrofe mais comum no Cordel?</h3>
-                <button class="quiz-option" data-correct="true">A) Sextilha (6 versos).</button>
-                <button class="quiz-option" data-correct="false">B) Quadra (4 versos).</button>
-                <button class="quiz-option" data-correct="false">C) Décima (10 versos).</button>
+            
+            <div id="quiz-result" class="card" style="display: none; text-align: center; padding: 4rem;">
+                <h2 style="font-size: 4rem; margin-bottom: 2rem;">Fim do Desafio!</h2>
+                <p id="score-text" style="font-size: 2.5rem; margin-bottom: 3rem;"></p>
+                <button onclick="location.reload()" class="btn-back-home" style="font-size: 1.8rem; padding: 1.5rem 3rem;">Tentar Novamente</button>
             </div>
         </div>
 
@@ -49,6 +48,105 @@
             <a href="index.html" class="btn-back-home">Voltar ao Início</a>
         </div>
     </main>
+
+    <script>
+        const questions = [
+            {
+                q: "Por que a literatura de Cordel tem esse nome?",
+                options: [
+                    { t: "A) Porque é escrita com cordas.", c: false },
+                    { t: "B) Porque os folhetos eram pendurados em cordéis (barbantes).", c: true },
+                    { t: "C) Porque os poetas usavam roupas de corda.", c: false }
+                ]
+            },
+            {
+                q: "Qual a estrofe mais comum no Cordel?",
+                options: [
+                    { t: "A) Sextilha (6 versos).", c: true },
+                    { t: "B) Quadra (4 versos).", c: false },
+                    { t: "C) Décima (10 versos).", c: false }
+                ]
+            },
+            {
+                q: "Qual técnica é usada para ilustrar as capas?",
+                options: [
+                    { t: "A) Pintura a óleo.", c: false },
+                    { t: "B) Desenho a lápis.", c: false },
+                    { t: "C) Xilogravura (entalhe em madeira).", c: true }
+                ]
+            },
+            {
+                q: "Quem é considerado o 'Pai do Cordel' brasileiro?",
+                options: [
+                    { t: "A) Leandro Gomes de Barros.", c: true },
+                    { t: "B) Lampião.", c: false },
+                    { t: "C) Patativa do Assaré.", c: false }
+                ]
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('question-text').innerText = `Pergunta ${currentQuestion + 1}: ${q.q}`;
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            
+            q.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-option';
+                btn.style.fontSize = '2rem';
+                btn.style.padding = '2rem';
+                btn.innerText = opt.t;
+                btn.onclick = () => checkAnswer(opt.c, btn);
+                container.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(correct, btn) {
+            const allBtns = document.querySelectorAll('.quiz-option');
+            allBtns.forEach(b => b.disabled = true);
+
+            if (correct) {
+                btn.classList.add('correct');
+                score++;
+            } else {
+                btn.classList.add('wrong');
+                // Show correct one
+                allBtns.forEach((b, idx) => {
+                    if (questions[currentQuestion].options[idx].c) b.classList.add('correct');
+                });
+            }
+
+            setTimeout(() => {
+                currentQuestion++;
+                if (currentQuestion < questions.length) {
+                    loadQuestion();
+                } else {
+                    showResult();
+                }
+            }, 2000);
+        }
+
+        function showResult() {
+            document.getElementById('question-card').style.display = 'none';
+            document.getElementById('quiz-result').style.display = 'block';
+            document.getElementById('score-text').innerText = `Você acertou ${score} de ${questions.length} perguntas!`;
+        }
+
+        window.onload = loadQuestion;
+    </script>
+
+    <div class="slide-nav">
+        <a href="index.html" class="nav-btn" title="Início">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </a>
+    </div>
+    <a href="index.html" class="nav-btn next-btn" title="Finalizar e Voltar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    </a>
 
     <button id="btnTVMode" title="Ativar Modo TV">🔎</button>
     <script src="/assets/app.js"></script>

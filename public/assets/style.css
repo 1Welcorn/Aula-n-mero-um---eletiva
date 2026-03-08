@@ -1,4 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Rokkitt:wght@700;900&display=swap');
+@import "tailwindcss";
+
+@view-transition {
+  navigation: auto;
+}
 
 :root {
     --bg-color: #1a1512;
@@ -170,12 +175,14 @@ nav a:hover {
     margin: 2rem 0;
     background: var(--card-bg);
     overflow: hidden;
+    animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .slide-left {
     flex: 0 0 35%;
     position: relative;
     border-right: 4px solid var(--border-color);
+    animation: slideInLeft 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .slide-left img {
@@ -183,6 +190,12 @@ nav a:hover {
     height: 100%;
     object-fit: cover;
     filter: grayscale(1) contrast(1.2) sepia(0.2);
+    transition: transform 1.5s ease, filter 0.5s ease;
+}
+
+.slide-left:hover img {
+    transform: scale(1.05);
+    filter: grayscale(0.5) contrast(1.1) sepia(0.1);
 }
 
 .slide-right {
@@ -191,6 +204,7 @@ nav a:hover {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    animation: slideInRight 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .slide-title {
@@ -210,12 +224,57 @@ nav a:hover {
     display: flex;
     align-items: flex-start;
     gap: 1rem;
+    animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
+
+.big-list li:nth-child(1) { animation-delay: 0.2s; }
+.big-list li:nth-child(2) { animation-delay: 0.4s; }
+.big-list li:nth-child(3) { animation-delay: 0.6s; }
+.big-list li:nth-child(4) { animation-delay: 0.8s; }
 
 .big-list li::before {
     content: "✅";
     flex-shrink: 0;
     font-size: 0.8em;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from { 
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from { 
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from { 
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 /* Note Box Highlight */
@@ -255,7 +314,16 @@ nav a:hover {
     cursor: pointer;
     transition: var(--transition);
     position: relative;
+    animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
+
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
+.card:nth-child(4) { animation-delay: 0.4s; }
+.card:nth-child(5) { animation-delay: 0.5s; }
+.card:nth-child(6) { animation-delay: 0.6s; }
+.card:nth-child(7) { animation-delay: 0.7s; }
 
 .card:hover {
     border-color: var(--accent);
@@ -274,18 +342,13 @@ body.tv-mode {
 }
 
 body.tv-mode header {
-    height: 6vh;
-    padding: 0 2%;
-    border-bottom-width: 1px;
-    background: var(--bg-color);
-    display: flex;
-    align-items: center;
+    display: none; /* Hide app header in TV mode for true fullscreen feel */
 }
 
 body.tv-mode .container {
     max-width: 100vw;
     width: 100vw;
-    height: 94vh; /* 100 - header height */
+    height: 100vh; /* Full height since header is gone */
     padding: 0;
     margin: 0;
     display: flex;
@@ -299,6 +362,18 @@ body.tv-mode .full-slide {
     margin: 0;
     border-width: 0;
     border-top: 1px solid var(--border-color);
+    animation: slideInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 body.tv-mode .slide-right {
@@ -337,6 +412,18 @@ body.tv-mode .note-box {
     padding: 4rem !important;
     overflow-y: auto;
     border: 6px solid var(--accent) !important;
+    animation: modalIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -40%) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
 }
 
 .maximized h3 {
@@ -373,6 +460,51 @@ body.tv-mode .note-box {
 }
 
 /* Floating Controls */
+.slide-nav {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    display: flex;
+    gap: 1rem;
+    z-index: 999;
+}
+
+.nav-btn {
+    width: 60px;
+    height: 60px;
+    background: var(--card-bg);
+    border: 2px solid var(--accent);
+    color: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 1.5rem;
+    transition: var(--transition);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    animation: bounceIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) both 1.2s;
+}
+
+.nav-btn:hover {
+    background: var(--accent);
+    color: var(--bg-color);
+    transform: scale(1.1);
+}
+
+.nav-btn.next-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 8rem; /* To the left of TV mode button */
+    background: var(--accent);
+    color: var(--bg-color);
+}
+
+.nav-btn.next-btn:hover {
+    background: #fff;
+    color: var(--bg-color);
+}
+
 #btnTVMode {
     position: fixed;
     bottom: 2rem;
@@ -391,11 +523,34 @@ body.tv-mode .note-box {
     align-items: center;
     justify-content: center;
     transition: var(--transition);
+    animation: bounceIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) both 1s;
+}
+
+@keyframes bounceIn {
+    from {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 #btnTVMode:hover {
     transform: scale(1.1);
     background: #fff;
+}
+
+body.tv-mode #btnTVMode {
+    background: #fff;
+    color: var(--accent);
+    border: 2px solid var(--accent);
+    bottom: 1rem;
+    right: 1rem;
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
 }
 
 /* Quiz Styles */
@@ -404,19 +559,31 @@ body.tv-mode .note-box {
     margin: 0 auto;
 }
 
+#question-text {
+    font-size: clamp(2rem, 5vw, 3.5rem) !important;
+    color: var(--accent);
+    font-weight: bold;
+}
+
 .quiz-option {
     display: block;
     width: 100%;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
     background: var(--card-bg);
     border: 2px solid var(--border-color);
     color: var(--text-color);
     text-align: left;
-    font-size: 1.4rem;
+    font-size: 2rem;
     cursor: pointer;
     transition: var(--transition);
+    animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
+
+.quiz-option:nth-child(1) { animation-delay: 0.1s; }
+.quiz-option:nth-child(2) { animation-delay: 0.2s; }
+.quiz-option:nth-child(3) { animation-delay: 0.3s; }
+.quiz-option:nth-child(4) { animation-delay: 0.4s; }
 
 .quiz-option:hover {
     border-color: var(--accent);
@@ -430,6 +597,54 @@ body.tv-mode .note-box {
 .quiz-option.wrong {
     background: #c62828;
     border-color: #ef5350;
+}
+
+/* Video Section */
+.video-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px dashed var(--border-color);
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.video-item {
+    display: flex;
+    flex-direction: column;
+    animation: fadeInUp 0.8s ease both;
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    overflow: hidden;
+    border: 3px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+body.tv-mode .video-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+body.tv-mode .video-container {
+    border-width: 5px;
+    border-color: var(--accent);
 }
 
 /* Responsive */

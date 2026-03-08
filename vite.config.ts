@@ -18,6 +18,7 @@ export default defineConfig(({mode}) => {
           nordeste: path.resolve(__dirname, 'nordeste.html'),
           comoFunciona: path.resolve(__dirname, 'como-funciona.html'),
           xilogravura: path.resolve(__dirname, 'xilogravura.html'),
+          demonstracao: path.resolve(__dirname, 'demonstracao.html'),
           capas: path.resolve(__dirname, 'capas.html'),
           autores: path.resolve(__dirname, 'autores.html'),
           quiz: path.resolve(__dirname, 'quiz.html'),
