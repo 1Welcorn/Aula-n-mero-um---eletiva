@@ -50,6 +50,10 @@ p {
 }
 
 /* Layout Structures */
+main {
+    animation: fadeIn 0.5s ease-out;
+}
+
 .container {
     width: 100%;
     margin: 0 auto;

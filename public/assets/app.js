@@ -103,39 +103,121 @@ document.addEventListener('DOMContentLoaded', () => {
         document.addEventListener('mozfullscreenchange', handleFullscreenChange);
         document.addEventListener('MSFullscreenChange', handleFullscreenChange);
 
-        // 2. Expansor Magnético (Maximized Cards)
-        const cards = document.querySelectorAll('.card');
-        console.log(`Encontrados ${cards.length} cartões.`);
-        
-        cards.forEach(card => {
-            card.addEventListener('click', (e) => {
-                // Se clicou no botão de fechar ou em algo interno que não deve triggar o card
-                if (e.target.closest('.close-btn') || e.target.closest('a')) return;
-
-                console.log('Cartão clicado:', card.querySelector('h3')?.innerText);
+        // 2. Navegação SPA para manter Fullscreen
+        const handleNavigation = async (url) => {
+            if (!url || url.startsWith('javascript:')) return;
+            
+            try {
+                const response = await fetch(url);
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
                 
-                // Lógica especial para Hub Cards (Início)
-                if (card.classList.contains('hub-card')) {
-                    const isTVActive = body.classList.contains('tv-mode');
-                    
-                    if (!isTVActive) {
-                        body.classList.add('tv-mode');
-                        try { localStorage.setItem('tvMode', 'true'); } catch (e) {}
-                        const doc = document.documentElement;
-                        const requestFS = doc.requestFullscreen || doc.webkitRequestFullscreen || doc.mozRequestFullScreen || doc.msRequestFullscreen;
-                        if (requestFS) requestFS.call(doc).catch(() => {});
-                        maximizeCard(card);
+                // Atualizar conteúdo do main
+                const newMain = doc.querySelector('main');
+                const currentMain = document.querySelector('main');
+                if (newMain && currentMain) {
+                    currentMain.innerHTML = newMain.innerHTML;
+                    // Re-scrolar para o topo
+                    window.scrollTo(0, 0);
+                }
+                
+                // Atualizar título
+                document.title = doc.title;
+                
+                // Executar scripts da nova página
+                const scripts = doc.querySelectorAll('script');
+                scripts.forEach(oldScript => {
+                    const newScript = document.createElement('script');
+                    Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+                    if (oldScript.src) {
+                        // Se for script externo (como app.js), não recarrega se já existir
+                        if (oldScript.src.includes('app.js')) return;
+                        newScript.src = oldScript.src;
                     } else {
-                        const url = card.dataset.url;
-                        if (url) window.location.href = url;
+                        newScript.textContent = oldScript.textContent;
                     }
-                    return;
-                }
+                    document.body.appendChild(newScript);
+                    // Remove para não poluir o DOM
+                    if (!oldScript.src) newScript.remove();
+                });
+                
+                // Atualizar URL
+                history.pushState({ url }, doc.title, url);
+                
+                // Re-inicializar componentes específicos da nova página
+                reinitializePageScripts();
+                
+            } catch (err) {
+                console.error('Erro na navegação SPA:', err);
+                window.location.href = url; // Fallback para navegação normal
+            }
+        };
 
-                if (!card.classList.contains('maximized')) {
-                    maximizeCard(card);
+        function reinitializePageScripts() {
+            // Re-inicializar Quiz se estiver na página de quiz
+            if (window.location.pathname.includes('quiz.html')) {
+                if (typeof loadQuestion === 'function') loadQuestion();
+            }
+        }
+
+        // Interceptar cliques em links da navegação
+        document.addEventListener('click', (e) => {
+            const link = e.target.closest('a');
+            if (link && link.href && link.origin === window.location.origin && !link.classList.contains('back-link')) {
+                e.preventDefault();
+                handleNavigation(link.href);
+            }
+        });
+
+        // Lidar com botão voltar do navegador
+        window.addEventListener('popstate', (e) => {
+            if (e.state && e.state.url) {
+                handleNavigation(e.state.url);
+            } else {
+                window.location.reload();
+            }
+        });
+
+        // 3. Expansor Magnético (Maximized Cards) via Delegação de Eventos
+        document.addEventListener('click', (e) => {
+            const card = e.target.closest('.card');
+            if (!card) return;
+
+            // Se clicou no botão de fechar ou em algo interno que não deve triggar o card
+            if (e.target.closest('.close-btn') || e.target.closest('a')) return;
+
+            console.log('Cartão clicado:', card.querySelector('h3')?.innerText);
+            
+            // Lógica especial para Hub Cards (Início)
+            if (card.classList.contains('hub-card')) {
+                const isTVActive = body.classList.contains('tv-mode');
+                const url = card.dataset.url;
+                
+                if (!isTVActive) {
+                    body.classList.add('tv-mode');
+                    try { localStorage.setItem('tvMode', 'true'); } catch (e) {}
+                    const doc = document.documentElement;
+                    const requestFS = doc.requestFullscreen || doc.webkitRequestFullscreen || doc.mozRequestFullScreen || doc.msRequestFullscreen;
+                    if (requestFS) {
+                        requestFS.call(doc).then(() => {
+                            if (url) handleNavigation(url);
+                        }).catch(err => {
+                            console.warn('Fullscreen bloqueado:', err);
+                            if (url) handleNavigation(url);
+                        });
+                    } else {
+                        if (url) handleNavigation(url);
+                    }
+                } else {
+                    if (url) handleNavigation(url);
                 }
-            });
+                return;
+            }
+
+            if (!card.classList.contains('maximized')) {
+                maximizeCard(card);
+            }
         });
 
         function maximizeCard(card) {
