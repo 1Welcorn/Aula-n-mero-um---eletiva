@@ -51,7 +51,7 @@ p {
 
 /* Layout Structures */
 main {
-    animation: fadeIn 0.5s ease-out;
+    animation: fadeIn 0.3s ease-out;
 }
 
 .container {
@@ -179,14 +179,14 @@ nav a:hover {
     margin: 2rem 0;
     background: var(--card-bg);
     overflow: hidden;
-    animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .slide-left {
     flex: 0 0 35%;
     position: relative;
     border-right: 4px solid var(--border-color);
-    animation: slideInLeft 1s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: slideInLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .slide-left img {
@@ -194,7 +194,7 @@ nav a:hover {
     height: 100%;
     object-fit: cover;
     filter: grayscale(1) contrast(1.2) sepia(0.2);
-    transition: transform 1.5s ease, filter 0.5s ease;
+    transition: transform 1s ease, filter 0.5s ease;
 }
 
 .slide-left:hover img {
@@ -208,7 +208,7 @@ nav a:hover {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    animation: slideInRight 1s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: slideInRight 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .slide-title {
@@ -228,13 +228,13 @@ nav a:hover {
     display: flex;
     align-items: flex-start;
     gap: 1rem;
-    animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+    animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 
-.big-list li:nth-child(1) { animation-delay: 0.2s; }
-.big-list li:nth-child(2) { animation-delay: 0.4s; }
-.big-list li:nth-child(3) { animation-delay: 0.6s; }
-.big-list li:nth-child(4) { animation-delay: 0.8s; }
+.big-list li:nth-child(1) { animation-delay: 0.1s; }
+.big-list li:nth-child(2) { animation-delay: 0.2s; }
+.big-list li:nth-child(3) { animation-delay: 0.3s; }
+.big-list li:nth-child(4) { animation-delay: 0.4s; }
 
 .big-list li::before {
     content: "✅";
@@ -762,6 +762,24 @@ body.tv-mode .video-container {
 }
 
 /* Responsive */
+.nav-loading-spinner {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    width: 30px;
+    height: 30px;
+    border: 3px solid rgba(255,255,255,0.1);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    z-index: 9999;
+    display: none;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
 @media (max-width: 1024px) {
     .full-slide {
         flex-direction: column;
