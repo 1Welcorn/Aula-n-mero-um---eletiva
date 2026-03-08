@@ -281,13 +281,18 @@ const initApp = () => {
 
             if (e.target.closest('.close-btn') || e.target.closest('a')) return;
 
+            // Lógica especial para Hub Cards (Início)
             if (card.classList.contains('hub-card')) {
-                const isTVActive = body.classList.contains('tv-mode');
                 const url = card.dataset.url;
+                if (!url) return;
+
+                console.log(`Hub Card clicado: ${url}. Ativando Modo TV...`);
                 
-                if (!isTVActive) {
+                // Forçar entrada no modo TV se ainda não estiver
+                if (!body.classList.contains('tv-mode')) {
                     body.classList.add('tv-mode');
                     try { localStorage.setItem('tvMode', 'true'); } catch (e) {}
+                    
                     const doc = document.documentElement;
                     const requestFS = doc.requestFullscreen || doc.webkitRequestFullscreen || doc.mozRequestFullScreen || doc.msRequestFullscreen;
                     
@@ -295,18 +300,19 @@ const initApp = () => {
                         const fsPromise = requestFS.call(doc);
                         if (fsPromise instanceof Promise) {
                             fsPromise.then(() => {
-                                if (url) handleNavigation(url);
-                            }).catch(() => {
-                                if (url) handleNavigation(url);
+                                handleNavigation(url);
+                            }).catch(err => {
+                                console.warn('Fullscreen falhou ou foi negado:', err);
+                                handleNavigation(url);
                             });
                         } else {
-                            if (url) handleNavigation(url);
+                            handleNavigation(url);
                         }
                     } else {
-                        if (url) handleNavigation(url);
+                        handleNavigation(url);
                     }
                 } else {
-                    if (url) handleNavigation(url);
+                    handleNavigation(url);
                 }
                 return;
             }
